@@ -56,7 +56,6 @@ DefineExternalTargetEx(
 
 
 
-
 set(ExtraFlags )
 if (MSVC)
     # globally disable scoped enum warnings
