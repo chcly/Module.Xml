@@ -21,8 +21,10 @@
 */
 #pragma once
 #include <stack>
-#include "Utils/ParserBase/ParserBase.h"
-#include "Utils/ParserBase/StackGuard.h"
+#include "ParserBase/ParserBase.h"
+#include "ParserBase/StackGuard.h"
+#include "Utils/Definitions.h"
+#include "Utils/IndexCache.h"
 #include "Utils/String.h"
 #include "Xml/Node.h"
 #include "Xml/TypeFilter.h"

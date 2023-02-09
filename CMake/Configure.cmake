@@ -44,12 +44,17 @@ endif()
 configure_gtest(${Xml_SOURCE_DIR}/Test/googletest 
                 ${Xml_SOURCE_DIR}/Test/googletest/googletest/include)
 
-
-
 DefineExternalTargetEx(
     Utils Extern
     ${Xml_SOURCE_DIR}/Internal/Utils 
     ${Xml_SOURCE_DIR}/Internal/Utils
+    ${Xml_BUILD_TEST}
+    ${Xml_AUTO_RUN_TEST}
+)
+DefineExternalTargetEx(
+    ParserBase Extern
+    ${Xml_SOURCE_DIR}/Internal/ParserBase
+    ${Xml_SOURCE_DIR}/Internal/ParserBase
     ${Xml_BUILD_TEST}
     ${Xml_AUTO_RUN_TEST}
 )

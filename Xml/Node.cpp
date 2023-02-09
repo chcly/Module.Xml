@@ -24,7 +24,7 @@
 #include <utility>
 #include "Utils/Char.h"
 #include "Utils/Exception.h"
-#include "Utils/ParserBase/ParserBase.h"
+#include "ParserBase/ParserBase.h"
 
 namespace Rt2::Xml
 {

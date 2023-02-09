@@ -7,3 +7,6 @@
 [submodule "Internal/Utils"]
 	path = Internal/Utils
 	url = git@github.com:CharlesCarley/Internal.Utils.git
+[submodule "Internal/ParserBase"]
+	path = Internal/ParserBase
+	url = git@github.com:CharlesCarley/ParserBase.git

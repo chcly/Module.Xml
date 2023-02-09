@@ -20,7 +20,10 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
-#include "Utils/ParserBase/ScannerBase.h"
+#include <vector>
+
+#include "ParserBase/ScannerBase.h"
+#include "Utils/String.h"
 #include "Xml/Token.h"
 
 namespace Rt2::Xml

@@ -31,13 +31,13 @@ configure_file(
 	${CMAKE_CURRENT_BINARY_DIR}/TestDirectory.h
 )
 
-include_directories(. ${GTEST_INCLUDE} ${CMAKE_CURRENT_BINARY_DIR} ${Xml_INCLUDE} ${Utils_INCLUDE})
+include_directories(. ${GTEST_INCLUDE} ${CMAKE_CURRENT_BINARY_DIR} ${Xml_INCLUDE} ${Utils_INCLUDE} ${ParserBase_INCLUDE})
 
 add_executable(
     ${TestTargetName}
     ${TestTarget_SOURCE}
 )
-target_link_libraries(${TestTargetName} ${GTEST_LIBRARY} ${Xml_LIBRARY} ${Utils_LIBRARY})
+target_link_libraries(${TestTargetName} ${GTEST_LIBRARY} ${Xml_LIBRARY} ${Utils_LIBRARY} ${ParserBase_LIBRARY})
 
 if (TargetFolders)
     set_target_properties(${TestTargetName} PROPERTIES FOLDER "${TargetGroup}")

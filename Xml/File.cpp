@@ -21,6 +21,7 @@
 */
 #include "Xml/File.h"
 #include "Utils/Char.h"
+#include "Utils/Path.h"
 #include "Xml/Node.h"
 #include "Xml/Scanner.h"
 #include "Xml/Token.h"

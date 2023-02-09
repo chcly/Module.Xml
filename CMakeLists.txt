@@ -33,6 +33,7 @@ if (Xml_ExternalTarget)
 else()
     add_subdirectory(CMake)
     add_subdirectory(Internal/Utils)
+    add_subdirectory(Internal/ParserBase)
 
     set(TargetFolders TRUE)
     set(TargetName Xml)

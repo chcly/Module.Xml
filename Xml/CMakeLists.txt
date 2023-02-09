@@ -12,10 +12,10 @@ set_group(Target_SRC
 
 
 
-include_directories(. ../ ${Utils_INCLUDE})
+include_directories(${Xml_INCLUDE} ${Utils_INCLUDE} ${ParserBase_INCLUDE})
 add_library(${TargetName} ${Target_SRC} ${Target_HDR})
 
-target_link_libraries(${TargetName} ${Utils_LIBRARY})
+target_link_libraries(${TargetName} ${Utils_LIBRARY} ${ParserBase_LIBRARY})
 
 
 set_target_properties(${TargetName} PROPERTIES FOLDER "${TargetGroup}")
