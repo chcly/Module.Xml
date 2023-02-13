@@ -19,7 +19,7 @@ list(APPEND CMAKE_MODULE_PATH
   ${Xml_SOURCE_DIR}/CMake 
   ${Xml_SOURCE_DIR}/CMake/Modules
 )
-include(${Xml_SOURCE_DIR}/CMake/Configure.cmake)
+include(Configure)
 if (NOT Configure_SUCCEEDED)
    return()
 endif()
