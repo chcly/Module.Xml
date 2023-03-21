@@ -20,6 +20,7 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
+#include <algorithm>
 #include <functional>
 #include <unordered_map>
 #include "TypeFilter.h"
@@ -141,7 +142,16 @@ namespace Rt2::Xml
         bool hasAttributes() const;
 
         void sort(const NodeSortFunc& fnc);
+
+        template <typename T>
+        static void forEach(const NodeArray& arr, T* inst, void (T::*callback)(const Node*));
     };
+
+    template <typename T>
+    void Node::forEach(const NodeArray& arr, T* inst, void (T::*callback)(const Node*))
+    {
+        for (const auto& n : arr)(inst->*callback)(n);
+    }
 
     inline bool Node::isTypeOf(const int64_t type) const
     {

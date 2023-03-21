@@ -40,7 +40,7 @@ namespace Rt2::Xml
 
     inline bool isValidIdentifier(const int ch)
     {
-        return isLetter(ch) || isDecimal(ch) || ch == '_' || ch == ':';
+        return isLetter(ch) || isDecimal(ch) || ch == '_' || ch == ':' || ch == '-';
     }
 
     inline bool isQuote(const int ch)
