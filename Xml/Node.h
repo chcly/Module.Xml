@@ -53,6 +53,7 @@ namespace Rt2::Xml
         Node() = default;
 
         explicit Node(String name, int64_t = -1);
+
         explicit Node(const TypeFilter& filter);
 
         ~Node();
@@ -88,7 +89,9 @@ namespace Rt2::Xml
         bool contains(const String& attribute);
 
         void insert(const String& key, const String& v);
+
         void insert(const char* key, int v);
+
         void insert(const char* key, double v);
 
         void siblingsOf(NodeArray&, const String& tag) const;
@@ -127,7 +130,7 @@ namespace Rt2::Xml
 
         float float32(const String& name, float def = 0.f) const;
 
-        double float64(const String& name, double def = 0.f) const;
+        double float64(const String& name, double def = 0.0) const;
 
         bool isTypeOf(const char* tagName) const;
 
@@ -150,7 +153,8 @@ namespace Rt2::Xml
     template <typename T>
     void Node::forEach(const NodeArray& arr, T* inst, void (T::*callback)(const Node*))
     {
-        for (const auto& n : arr)(inst->*callback)(n);
+        for (const auto& n : arr)
+            (inst->*callback)(n);
     }
 
     inline bool Node::isTypeOf(const int64_t type) const

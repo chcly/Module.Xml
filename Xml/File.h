@@ -174,8 +174,8 @@ namespace Rt2::Xml
         void errorMessageImpl(String& dest, const String& message) override;
 
     public:
-        File(const U16& maxTags  = TagUpperBound,
-             const U16& maxDepth = DefaultMaxDepth);
+        explicit File(const U16& maxTags  = TagUpperBound,
+                      const U16& maxDepth = DefaultMaxDepth);
 
         /**
          * \brief Construct the parser with Node type filter.
@@ -214,7 +214,18 @@ namespace Rt2::Xml
 
         Node* detachRoot();
 
-        static Node* constructClone(const Node* root, const TypeFilter* filter, size_t filterSize);
+        static Node* constructClone(const Node*       root,
+                                    const TypeFilter* filter,
+                                    size_t            filterSize);
+
+
+        static Node* detachRead(const TypeFilter* filter,
+                                size_t            filterSize,
+                                const char*       buffer,
+                                size_t            bufferSizeInBytes,
+                                const char*       readName,
+                                const U16&        maxTags  = TagUpperBound,
+                                const U16&        maxDepth = DefaultMaxDepth);
     };
 
 }  // namespace Rt2::Xml

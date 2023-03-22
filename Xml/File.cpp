@@ -395,12 +395,10 @@ namespace Rt2::Xml
         // make sure the token cursor is at zero
         // initially and attach the input stream
         // to the scanner
-        _cursor = 0;
+        _cursor   = 0;
         _tagCount = 1;
         _scanner->attach(&input, PathUtil(_file));
         _stack.push(_root);
-
-
 
         StackGuard guard(_maxDepth);
         while (_cursor <= (int32_t)_tokens.size())
@@ -459,15 +457,43 @@ namespace Rt2::Xml
 
         if (!ret.empty())
         {
-            StringStream ss;
-            ss << ret;
+            InputStringStream stream(ret);
 
             File fp(filter, filterSize);
-            fp.read(ss);
+            fp.read(stream);
 
             return fp.detachRoot();
         }
         return nullptr;
     }
 
+    Node* File::detachRead(const TypeFilter* filter,
+                           const size_t      filterSize,
+                           const char*       buffer,
+                           const size_t      bufferSizeInBytes,
+                           const char*       readName,
+                           const U16&        maxTags,
+                           const U16&        maxDepth)
+    {
+        try
+        {
+            // the benefit of this method, is that only the parse tree
+            // remains in memory on return. Everything that constructed it
+            // in goes out of scope with ~File()
+
+            InputStringStream iss(String(buffer, bufferSizeInBytes));
+            File fp(filter,
+                    filterSize,
+                    maxTags,
+                    maxDepth);
+
+            fp.read(iss, readName);
+            return fp.detachRoot();
+        }
+        catch (Exception& ex)
+        {
+            Console::writeLine(ex.what());
+            return nullptr;
+        }
+    }
 }  // namespace Rt2::Xml
