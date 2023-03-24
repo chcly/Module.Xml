@@ -475,19 +475,29 @@ namespace Rt2::Xml
                            const U16&        maxTags,
                            const U16&        maxDepth)
     {
+        InputStringStream input(String(buffer, bufferSizeInBytes));
+        return detachRead(filter, filterSize, input, readName, maxTags, maxDepth);
+    }
+
+    Node* File::detachRead(const TypeFilter* filter,
+                           const size_t      filterSize,
+                           IStream&          input,
+                           const char*       readName,
+                           const U16&        maxTags,
+                           const U16&        maxDepth)
+    {
         try
         {
             // the benefit of this method, is that only the parse tree
             // remains in memory on return. Everything that constructed it
             // in goes out of scope with ~File()
 
-            InputStringStream iss(String(buffer, bufferSizeInBytes));
             File fp(filter,
                     filterSize,
                     maxTags,
                     maxDepth);
 
-            fp.read(iss, readName);
+            fp.read(input, readName);
             return fp.detachRoot();
         }
         catch (Exception& ex)

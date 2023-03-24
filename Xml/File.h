@@ -218,11 +218,17 @@ namespace Rt2::Xml
                                     const TypeFilter* filter,
                                     size_t            filterSize);
 
-
         static Node* detachRead(const TypeFilter* filter,
                                 size_t            filterSize,
                                 const char*       buffer,
                                 size_t            bufferSizeInBytes,
+                                const char*       readName,
+                                const U16&        maxTags  = TagUpperBound,
+                                const U16&        maxDepth = DefaultMaxDepth);
+
+        static Node* detachRead(const TypeFilter* filter,
+                                size_t            filterSize,
+                                IStream&          input,
                                 const char*       readName,
                                 const U16&        maxTags  = TagUpperBound,
                                 const U16&        maxDepth = DefaultMaxDepth);
