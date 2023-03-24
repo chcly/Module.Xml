@@ -115,6 +115,7 @@ namespace Rt2::Xml
             insert(key, Char::toString(v));
     }
 
+
     const String& Node::get(const String& attribute)
     {
         if (const AttributeIt it = _attributes.find(attribute);

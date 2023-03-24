@@ -78,7 +78,9 @@ namespace Rt2::Xml
 
         void text(const String& text);
 
-        int64_t getTypeCode() const;
+        int64_t type() const;
+
+        [[deprecated("use type()")]] int64_t getTypeCode() const;
 
         void setTypeCode(int64_t code);
 
@@ -208,6 +210,11 @@ namespace Rt2::Xml
     }
 
     inline int64_t Node::getTypeCode() const
+    {
+        return _typeCode;
+    }
+
+    inline int64_t Node::type() const
     {
         return _typeCode;
     }
