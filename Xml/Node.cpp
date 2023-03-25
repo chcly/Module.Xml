@@ -22,9 +22,9 @@
 #include "Xml/Node.h"
 #include <algorithm>
 #include <utility>
+#include "ParserBase/ParserBase.h"
 #include "Utils/Char.h"
 #include "Utils/Exception.h"
-#include "ParserBase/ParserBase.h"
 
 namespace Rt2::Xml
 {
@@ -99,7 +99,6 @@ namespace Rt2::Xml
         if (const AttributeIt it = _attributes.find(key);
             it == _attributes.end())
             _attributes.insert(std::make_pair(key, v));
-
         // TODO: Warn?
     }
 
@@ -114,7 +113,6 @@ namespace Rt2::Xml
         if (key && *key)
             insert(key, Char::toString(v));
     }
-
 
     const String& Node::get(const String& attribute)
     {
@@ -144,12 +142,12 @@ namespace Rt2::Xml
         return integer(name, def);
     }
 
-    int32_t Node::int32(const String& name, int32_t def) const
+    int32_t Node::int32(const String& name, const int32_t def) const
     {
         return (int32_t)integer(name, (int64_t)def);
     }
 
-    int16_t Node::int16(const String& name, int16_t def) const
+    int16_t Node::int16(const String& name, const int16_t def) const
     {
         return (int16_t)integer(name, (int64_t)def);
     }
@@ -227,7 +225,7 @@ namespace Rt2::Xml
         }
     }
 
-    void Node::setDetachedState(bool detach)
+    void Node::setDetachedState(const bool detach)
     {
         _childrenDetached = detach;
     }
@@ -242,24 +240,19 @@ namespace Rt2::Xml
 
     Node* Node::getFirstChild(const String& requireType) const
     {
+        if (requireType.empty())
+            return firstChild();
+
         if (_children.empty())
-        {
-            throw Exception(
-                "The supplied node has no children, "
-                "therefore the first child '",
-                requireType,
-                "' of it is undefined");
-        }
+            throw Exception("missing required child nodes.");
 
         Node* chi = _children.at(0);
-
-        if (!requireType.empty() && chi->name() != requireType)
+        if (chi->name() != requireType)
         {
             throw Exception(
-                "the top level node is not "
-                "a ",
-                requireType,
-                "node");
+                "the first child node's type does "
+                "not match the required type name: ",
+                requireType);
         }
         return chi;
     }
@@ -267,22 +260,15 @@ namespace Rt2::Xml
     Node* Node::getFirstChild(const int64_t& requireType) const
     {
         if (_children.empty())
-        {
-            throw Exception(
-                "The supplied node has no children, "
-                "therefore the first child '",
-                requireType,
-                "' of it is undefined");
-        }
+            throw Exception("missing required child nodes.");
 
         Node* chi = _children.at(0);
-        if (chi->getTypeCode() != requireType)
+        if (chi->type() != requireType)
         {
             throw Exception(
-                "the top level node is not "
-                "a ",
-                requireType,
-                "node");
+                "the first child node's type does "
+                "not match the required type code: ",
+                requireType);
         }
         return chi;
     }
