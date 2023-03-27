@@ -22,10 +22,75 @@
 #include "TestDirectory.h"
 #include "Utils/FileSystem.h"
 #include "Xml/File.h"
+#include "Xml/Scanner.h"
 #include "gtest/gtest.h"
+#include "Utils/TextStreamWriter.h"
 
 using namespace Rt2;
 using namespace Xml;
+
+void CheckSequenceSubstitution(
+    const String& input,
+    const String& expected)
+{
+    Scanner      sc;
+    StringStream ss;
+
+    Ts::print(ss, '"', input, '"');
+
+    Token tok;
+    sc.attach(&ss);
+    sc.scan(tok);
+    EXPECT_EQ(tok.type(), TOK_STRING);
+    EXPECT_EQ(sc.string(tok.index()), expected);
+}
+
+GTEST_TEST(Xml, Scan_specialChar)
+{
+    CheckSequenceSubstitution(
+        "substitute&lt;sequence&gt;",
+        "substitute<sequence>"
+        );
+    CheckSequenceSubstitution(
+        "&quot;sequence&quot;",
+        R"("sequence")"
+        );
+    CheckSequenceSubstitution(
+        "&apos;sequence&apos;",
+        R"('sequence')"
+        );
+    CheckSequenceSubstitution(
+        "&amp;sequence&amp;",
+        R"(&sequence&)"
+        );
+    CheckSequenceSubstitution(
+        "&lt;&gt;&amp;&quot;&apos;",
+        R"(<>&"')"
+        );
+    CheckSequenceSubstitution(
+        "&gt;&amp;&apos;&quot;&lt;",
+        R"(>&'"<)"
+        );
+
+    // Partial fail. tests putting back the failed sequences.
+    CheckSequenceSubstitution(
+        "&gt&amp&apos&quot&lt;",
+        R"(&gt&amp&apos&quot<)"
+        );
+    CheckSequenceSubstitution(
+        "&gt;&amp&apos&quot&lt;",
+        R"(>&amp&apos&quot<)"
+        );
+    CheckSequenceSubstitution(
+        "&gt;&amp&apos;&quot&lt;",
+        R"(>&amp'&quot<)"
+        );
+
+    CheckSequenceSubstitution(
+        "&quot;n&gt&amp&apos&quot&lto s&gt&amp&apos&quot&ltubst&gt&amp&apos&quot&ltitution&quot;",
+        R"("n&gt&amp&apos&quot&lto s&gt&amp&apos&quot&ltubst&gt&amp&apos&quot&ltitution")"
+        );
+}
 
 GTEST_TEST(Xml, Parse_001)
 {

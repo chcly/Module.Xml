@@ -20,6 +20,7 @@
 -------------------------------------------------------------------------------
 */
 #include "Xml/Scanner.h"
+#include "Xml/SpecialChar.h"
 #include "Utils/Char.h"
 #include "Xml/Token.h"
 
@@ -66,7 +67,11 @@ namespace Rt2::Xml
         ch = _stream->get();
         while (!isQuote(ch))
         {
-            dest.push_back((char)ch);
+            if (ch == '&')
+                dest.push_back(Sc::check(ch, _stream));
+            else
+                dest.push_back((char)ch);
+
             ch = _stream->get();
 
             if (ch <= 0)
@@ -79,9 +84,8 @@ namespace Rt2::Xml
 
     void Scanner::scanSymbol(Token& tok)
     {
-        int ch = _stream->get();
-
-        if (isLetter(ch))
+        if (int ch = _stream->get();
+            isLetter(ch))
         {
             String cmp;
             while (isValidIdentifier(ch))
