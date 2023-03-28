@@ -214,6 +214,8 @@ namespace Rt2::Xml
 
         Node* detachRoot();
 
+        U16 tagCount() const;
+
         static Node* constructClone(const Node*       root,
                                     const TypeFilter* filter,
                                     size_t            filterSize);
@@ -224,14 +226,21 @@ namespace Rt2::Xml
                                 size_t            bufferSizeInBytes,
                                 const char*       readName,
                                 const U16&        maxTags  = TagUpperBound,
-                                const U16&        maxDepth = DefaultMaxDepth);
+                                const U16&        maxDepth = DefaultMaxDepth,
+                                U16*              tagCount = nullptr);
 
         static Node* detachRead(const TypeFilter* filter,
                                 size_t            filterSize,
                                 IStream&          input,
                                 const char*       readName,
                                 const U16&        maxTags  = TagUpperBound,
-                                const U16&        maxDepth = DefaultMaxDepth);
+                                const U16&        maxDepth = DefaultMaxDepth,
+                                U16*              tagCount = nullptr);
     };
+
+    inline U16 File::tagCount() const
+    {
+        return _tagCount;
+    }
 
 }  // namespace Rt2::Xml

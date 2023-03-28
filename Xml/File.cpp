@@ -473,10 +473,11 @@ namespace Rt2::Xml
                            const size_t      bufferSizeInBytes,
                            const char*       readName,
                            const U16&        maxTags,
-                           const U16&        maxDepth)
+                           const U16&        maxDepth,
+                           U16*              tagCount)
     {
         InputStringStream input(String(buffer, bufferSizeInBytes));
-        return detachRead(filter, filterSize, input, readName, maxTags, maxDepth);
+        return detachRead(filter, filterSize, input, readName, maxTags, maxDepth, tagCount);
     }
 
     Node* File::detachRead(const TypeFilter* filter,
@@ -484,7 +485,8 @@ namespace Rt2::Xml
                            IStream&          input,
                            const char*       readName,
                            const U16&        maxTags,
-                           const U16&        maxDepth)
+                           const U16&        maxDepth,
+                           U16*              tagCount)
     {
         try
         {
@@ -498,6 +500,10 @@ namespace Rt2::Xml
                     maxDepth);
 
             fp.read(input, readName);
+
+            if (tagCount)
+                *tagCount = fp.tagCount();
+
             return fp.detachRoot();
         }
         catch (Exception& ex)
