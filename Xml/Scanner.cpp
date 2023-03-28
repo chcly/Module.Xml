@@ -44,11 +44,6 @@ namespace Rt2::Xml
         return isLetter(ch) || isDecimal(ch) || ch == '_' || ch == ':' || ch == '-';
     }
 
-    inline bool isQuote(const int ch)
-    {
-        return ch == '"' || ch == '\'';
-    }
-
     void Scanner::getCode(String& dest, const size_t& idx)
     {
         if (idx < _code.size())
