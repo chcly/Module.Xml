@@ -236,6 +236,14 @@ namespace Rt2::Xml
                                 const U16&        maxTags  = TagUpperBound,
                                 const U16&        maxDepth = DefaultMaxDepth,
                                 U16*              tagCount = nullptr);
+
+        static Node* detachReadRethrow(const TypeFilter* filter,
+                                size_t            filterSize,
+                                IStream&          input,
+                                const char*       readName,
+                                const U16&        maxTags  = TagUpperBound,
+                                const U16&        maxDepth = DefaultMaxDepth,
+                                U16*              tagCount = nullptr);
     };
 
     inline U16 File::tagCount() const

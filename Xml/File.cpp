@@ -490,6 +490,31 @@ namespace Rt2::Xml
     {
         try
         {
+            return detachReadRethrow(filter,
+                                     filterSize,
+                                     input,
+                                     readName,
+                                     maxTags,
+                                     maxDepth,
+                                     tagCount);
+        }
+        catch (Exception& ex)
+        {
+            Console::writeLine(ex.what());
+            return nullptr;
+        }
+    }
+
+    Node* File::detachReadRethrow(const TypeFilter* filter,
+                                  const size_t      filterSize,
+                                  IStream&          input,
+                                  const char*       readName,
+                                  const U16&        maxTags,
+                                  const U16&        maxDepth,
+                                  U16*              tagCount)
+    {
+        try
+        {
             // the benefit of this method, is that only the parse tree
             // remains in memory on return. Everything that constructed it
             // in goes out of scope with ~File()
@@ -506,10 +531,9 @@ namespace Rt2::Xml
 
             return fp.detachRoot();
         }
-        catch (Exception& ex)
+        catch (Exception&)
         {
-            Console::writeLine(ex.what());
-            return nullptr;
+            throw;
         }
     }
 }  // namespace Rt2::Xml
