@@ -34,8 +34,8 @@ namespace Rt2::Xml
     using NodeSortFunc = std::function<bool(Node* a, Node* b)>;
 
     typedef std::unordered_map<String, String> AttributeMap;
-    typedef std::vector<Node*>                 NodeArray;
     typedef std::unordered_map<String, Node*>  NodeMap;
+    typedef std::vector<Node*>                 NodeArray;
 
     class Node
     {
@@ -88,7 +88,7 @@ namespace Rt2::Xml
 
         const String& get(const String& attribute);
 
-        bool contains(const String& attribute);
+        bool contains(const String& attribute) const;
 
         void insert(const String& key, const String& v);
 
@@ -149,14 +149,57 @@ namespace Rt2::Xml
         void sort(const NodeSortFunc& fnc);
 
         template <typename T>
-        static void forEach(const NodeArray& arr, T* inst, void (T::*callback)(const Node*));
+        static void forEach(
+            const NodeArray& arr,
+            T*               inst,
+            void (T::*callback)(const Node*));
+
+        template <typename T>
+        static void traverse(
+            const Node* from,
+            T*          inst,
+            void (T::*callback)(const Node*));
+
+        template <typename T>
+        static void stackTraverse(
+            const Node* node,
+            T*          inst,
+            void (T::*pre)(const Node*),
+            void (T::*post)(const Node*));
     };
 
     template <typename T>
-    void Node::forEach(const NodeArray& arr, T* inst, void (T::*callback)(const Node*))
+    void Node::forEach(
+        const NodeArray& arr,
+        T*               inst,
+        void (T::*callback)(const Node*))
     {
         for (const auto& n : arr)
             (inst->*callback)(n);
+    }
+
+    template <typename T>
+    void Node::traverse(
+        const Node* from,
+        T*          inst,
+        void (T::*callback)(const Node*))
+    {
+        (inst->*callback)(from);
+        for (const auto& n : from->children())
+            traverse(n, inst, callback);
+    }
+
+    template <typename T>
+    void Node::stackTraverse(
+        const Node* node,
+        T*          inst,
+        void (T::*pre)(const Node*),
+        void (T::*post)(const Node*))
+    {
+        (inst->*pre)(node);
+        for (const auto& n : node->children())
+            stackTraverse(n, inst, pre, post);
+        (inst->*post)(node);
     }
 
     inline bool Node::isTypeOf(const int64_t type) const

@@ -89,7 +89,7 @@ namespace Rt2::Xml
         return _children.at(idx);
     }
 
-    bool Node::contains(const String& attribute)
+    bool Node::contains(const String& attribute) const
     {
         return _attributes.find(attribute) != _attributes.end();
     }
@@ -130,14 +130,14 @@ namespace Rt2::Xml
         return def;
     }
 
-    int64_t Node::integer(const String& name, int64_t def) const
+    int64_t Node::integer(const String& name, const int64_t def) const
     {
         if (const String val = attribute(name); !val.empty())
             return Char::toInt64(val, def);
         return def;
     }
 
-    int64_t Node::int64(const String& name, int64_t def) const
+    int64_t Node::int64(const String& name, const int64_t def) const
     {
         return integer(name, def);
     }
