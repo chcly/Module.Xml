@@ -1,6 +1,6 @@
 # Xml
 
-Is a simple custom XML parser that builds upon the `Module.ParserBase` and the `Module.Utils` repositories.
+Is a simple XML parser.
 
 ## Testing
 
