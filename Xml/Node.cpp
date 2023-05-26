@@ -181,6 +181,13 @@ namespace Rt2::Xml
         return !_children.empty();
     }
 
+    bool Node::hasParent() const
+    {
+        // everything is attached to a base node
+        // the base->firstChild == root
+        return _parent != nullptr && _parent->_parent != nullptr;
+    }
+
     bool Node::hasChild(const char* str) const
     {
         if (!str)

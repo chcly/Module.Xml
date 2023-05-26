@@ -140,6 +140,8 @@ namespace Rt2::Xml
 
         bool hasChildren() const;
 
+        bool  hasParent() const;
+
         bool hasChild(const char* str) const;
 
         bool hasText() const;
